@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Polygon Arrays</title>
+    <style>
+      
+      #map {
+        height: 100%;
+      }
+      
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+.infoWindow {
+      background: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+<p id="demo"></p>
+    <script>
+
+      
+      var map;
+      var infoWindow;
+
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 18,
+          center: {lat: 13.5242, lng:79.9958},
+          mapTypeId: 'terrain'
+        });
+	var x=13.5244;
+	var A={{lat}};
+	var B={{lon}};
+	var C = {{farm_id}};
+	var D={{well_id}}
+	var E={{depth}}
+	var X={{avg_yield}}
+	var F={{lat1}}
+	var G={{lon1}}
+	var Y={{f_id}}
+var image = 'https://image.ibb.co/eDr4KQ/well.png';
+	G.forEach(function(element,index){
+		cords = {"lat":F[index],"lng":G[index]};
+		console.log(cords);
+
+		
+		var beachMarker = new google.maps.Marker({
+		    position: cords,
+		    map: map,
+		    icon: image
+		});
+		beachMarker.addListener('click', (event)=>{
+			console.log(index)
+			var contentString = '<b>Well_id : </b>'+D[index]+'<br>Farm_id : '+Y[index]+'<br>Depth : '+E[index]+' meters<br>Average Water Yield : '+X[index]+' liters<br>';
+			infoWindow.setContent(contentString);
+			infoWindow.setPosition(event.latLng);
+			infoWindow.open(map);
+		});
+
+	});
+
+
+
+
+
+	B.forEach(function(element,index){
+		coords = [];
+		var x = element.length;
+		for(var j=0;j<x;j++)
+		{
+			coords.push({lat:A[index][j],lng:B[index][j]});
+		}
+		console.log(coords);
+		var bermudaTriangle = new google.maps.Polygon({
+			  paths: coords,
+			  strokeColor: '#FF0000',
+			  strokeOpacity: 0.8,
+			  strokeWeight: 3,
+			  fillColor: '#FF0000',
+			  fillOpacity: 0
+		});
+        	bermudaTriangle.setMap(map);
+		/*bermudaTriangle.addListener('click', (event)=>{
+
+			var contentString = '<b>Farm Id : </b>'+C[index]+'<br><b>House_id : </b>'+D[index]+'<br><b>Area : </b>'+E[index]+'acres';
+			infoWindow.setContent(contentString);
+			infoWindow.setPosition(event.latLng);
+			infoWindow.open(map);
+		});*/
+
+	});
+		
+
+        // Construct the polygon.
+        
+        infoWindow = new google.maps.InfoWindow;
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC89u1SmkUMOVrW6QhxDIs2U0Pwuuei4ws&callback=initMap">
+    </script>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Polygon Arrays</title>
+    <style>
+      
+      #map {
+        height: 100%;
+      }
+      
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+.infoWindow {
+      background: #fff;
+      }
+    </style>
+  </head>
+  <body>
+
+    <div id="map"></div>
+<p id="demo"></p>
+    <script>
+
+      
+      var map;
+      var infoWindow;
+      //Initialize map	
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 18,
+          center: {lat: 13.5200, lng:79.9900},
+          mapTypeId: 'terrain',
+        });
+	var x=13.5244;
+	//{{}} means that value of lat is contained in var A
+	var A={{lat}};
+	
+	var B={{lon}};
+	var C = {{house_id}};
+	var D = {{mi}};
+	var E={{info|safe}};
+	var P={{ml}};
+	var L={{links|safe}};
+	//var E = {{area}};
+	//Loop through the coordinates to create Circles at each coordinate
+	A.forEach(function(element,index){
+		var clr;
+		if(D[index]<30000){
+			clr='red';//color of circle show in maps
+		}
+		else if(D[index]>=30000 && D[index]<40000){
+			clr='blue';
+		}
+		else if(D[index]>=40000){
+			clr='green';
+		}
+		console.log(D[index]);
+		console.log(clr);
+          // Add the circle for this location to the map.
+          var cityCircle = new google.maps.Circle({
+            strokeColor: clr,
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: clr,
+            fillOpacity: 0.35,
+            map: map,
+            center: {lat:A[index],lng:B[index]},//Center map
+            radius: Math.sqrt(P[index]) * 10,//Radius of circle
+          });
+	//Set content for info window
+	cityCircle.addListener('click', (event)=>{
+			var contentString = '<b>House_id : </b>'+C[index]+'<br><b>Monthly Income : </b>'+D[index]+' Rupees<br>'+E[index]+L[index];
+			infoWindow.setContent(contentString);
+			infoWindow.setPosition(event.latLng);
+			infoWindow.open(map);
+		});
+
+        });
+	 infoWindow = new google.maps.InfoWindow;
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC89u1SmkUMOVrW6QhxDIs2U0Pwuuei4ws&callback=initMap">
+    </script>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+
